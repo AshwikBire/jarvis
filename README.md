@@ -1,12 +1,20 @@
+# <div align="center">
+
+# 
+
 # \# 🚀 J.A.R.V.I.S. — Advanced Holographic AI Assistant
 
 # 
 
-# \[!\[Python](https://img.shields.io/badge/Python-3.9%2B-blue)](https://python.org)
+# \[!\[Python](https://img.shields.io/badge/Python-3.9%2B-blue?style=for-the-badge\&logo=python)](https://python.org)
 
-# \[!\[PyQt6](https://img.shields.io/badge/PyQt6-6.5%2B-brightgreen)](https://riverbankcomputing.com/software/pyqt/)
+# \[!\[PyQt6](https://img.shields.io/badge/PyQt6-6.5%2B-brightgreen?style=for-the-badge\&logo=qt)](https://riverbankcomputing.com/software/pyqt/)
 
-# \[!\[License](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
+# \[!\[License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](LICENSE)
+
+# \[!\[GitHub stars](https://img.shields.io/github/stars/AshwikBire/jarvis?style=for-the-badge\&logo=github)](https://github.com/AshwikBire/jarvis/stargazers)
+
+# \[!\[GitHub forks](https://img.shields.io/github/forks/AshwikBire/jarvis?style=for-the-badge\&logo=github)](https://github.com/AshwikBire/jarvis/network)
 
 # 
 
@@ -18,7 +26,99 @@
 
 # 
 
-# \## ✨ Features
+# \## ✨ \*\*Developed By Ashwik Bire\*\*
+
+# 
+
+# \[!\[Portfolio](https://img.shields.io/badge/🌐-Portfolio-46dcff?style=for-the-badge)](https://ashwikbire.github.io/My-Portfolio/)
+
+# \[!\[LinkedIn](https://img.shields.io/badge/🔗-LinkedIn-0A66C2?style=for-the-badge\&logo=linkedin)](https://linkedin.com/in/ashwik-bire-b2a000186)
+
+# \[!\[GitHub](https://img.shields.io/badge/🐙-GitHub-181717?style=for-the-badge\&logo=github)](https://github.com/AshwikBire)
+
+# 
+
+# </div>
+
+# 
+
+# \---
+
+# 
+
+# \## 📸 \*\*Screenshots\*\*
+
+# 
+
+# <div align="center">
+
+# 
+
+# \### 🎨 \*\*Main Interface\*\*
+
+# <img src="screenshots/main\_interface.png" alt="Main Interface" width="800"/>
+
+# 
+
+# \*The holographic core with rainbow rings and chat panel\*
+
+# 
+
+# \---
+
+# 
+
+# \### 🌈 \*\*Holographic Core\*\*
+
+# <img src="screenshots/holographic\_core.png" alt="Holographic Core" width="800"/>
+
+# 
+
+# \*Animated rainbow rings, particles, and scanline sweep\*
+
+# 
+
+# \---
+
+# 
+
+# \### 💬 \*\*Chat \& Voice\*\*
+
+# <img src="screenshots/chat\_interface.png" alt="Chat Interface" width="800"/>
+
+# 
+
+# \*Chat with voice output and document upload\*
+
+# 
+
+# \---
+
+# 
+
+# \### 📄 \*\*Document RAG\*\*
+
+# <img src="screenshots/document\_upload.png" alt="Document Upload" width="800"/>
+
+# 
+
+# \*Upload PDF, DOCX, TXT and ask questions\*
+
+# 
+
+# </div>
+
+# 
+
+# \---
+
+# 
+
+# \## ✨ \*\*Features\*\*
+
+# 
+
+# <div align="center">
 
 # 
 
@@ -46,67 +146,49 @@
 
 # 
 
+# </div>
+
+# 
+
 # \---
 
 # 
 
-# \## 🖥️ Screenshots
+# \## 🖥️ \*\*UI Layout\*\*
 
-# 
+# ┌─────────────────────────────────────────────────────────────────────────────┐
 
-# \### Main Interface
+# │ ✦ J.A.R.V.I.S. AI Assistant ✦ Developed By Ashwik Bire ✦ │
 
+# │ \[🧠 Local] \[🔊 ON] \[📎 Upload] \[🗑️ Clear] \[⏹️ Stop] \[🔑 API Key] │
 
+# ├─────────────────────────────────────────────────────────────────────────────┤
 
-┌─────────────────────────────────────────────────────────────────────────────┐
+# │ ┌──────────────────────────────┐ ┌──────────────────────────────────────┐ │
 
-│ ✦ J.A.R.V.I.S. AI Assistant ✦ Developed By Ashwik Bire ✦ │
+# │ │ ⚡ HOLOGRAPHIC CORE │ │ 💬 CHAT │ │
 
-│ \[🧠 Local] \[🔊 ON] \[📎 Upload] \[🗑️ Clear] \[⏹️ Stop] \[🔑 API Key] │
+# │ │ │ │ \[12:34] 👤 Hello Jarvis │ │
 
-├─────────────────────────────────────────────────────────────────────────────┤
+# │ │ 🌈 Rainbow Rings │ │ \[12:34] 🤖 Hello! How can I help? │ │
 
-│ ┌──────────────────────────────┐ ┌──────────────────────────────────────┐ │
+# │ │ ✨ Glowing Particles │ │ \[12:35] 📄 Uploaded: report.pdf │ │
 
-│ │ ⚡ HOLOGRAPHIC CORE │ │ 💬 CHAT │ │
+# │ │ 🔄 Scanline Sweep │ │ \[12:35] 🤖 Based on the document... │ │
 
-│ │ (Rainbow Rings, Particles) │ │ \[12:34] 👤 Hello Jarvis │ │
+# │ │ 💫 Corner Accents │ │ │ │
 
-│ │ │ │ \[12:34] 🤖 Hello! How can I help? │ │
+# │ └──────────────────────────────┘ └──────────────────────────────────────┘ │
 
-│ │ │ │ \[12:35] 📄 Uploaded: report.pdf │ │
+# ├─────────────────────────────────────────────────────────────────────────────┤
 
-│ │ │ │ \[12:35] 🤖 Based on the document... │ │
+# │ ● READY 📋 5 msgs • 📄 2 docs • ⏱️ 00:02:30 ⌨️ Ctrl+H help │
 
-│ │ │ │ │ │
-
-│ └──────────────────────────────┘ └──────────────────────────────────────┘ │
-
-├─────────────────────────────────────────────────────────────────────────────┤
-
-│ ● READY 📋 5 msgs • 📄 2 docs • ⏱️ 00:02:30 ⌨️ Ctrl+H help │
-
-└─────────────────────────────────────────────────────────────────────────────┘
+# └─────────────────────────────────────────────────────────────────────────────┘
 
 
 
 
 
 
-
-\---
-
-
-
-\## 🚀 Quick Start
-
-
-
-\### 1. Clone the Repository
-
-```bash
-
-git clone https://github.com/AshwikBire/jarvis.git
-
-cd jarvis
 
