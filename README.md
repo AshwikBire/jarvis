@@ -1,10 +1,10 @@
-# \# ⚡ J.A.R.V.I.S.
+# \# J.A.R.V.I.S.
 
 # 
 
 # <p align="center">
 
-# &#x20; <strong>JUST A RATHER VERY INTELLIGENT SYSTEM</strong>
+# &#x20; Just A Rather Very Intelligent System
 
 # </p>
 
@@ -12,7 +12,7 @@
 
 # <p align="center">
 
-# &#x20; <em>Advanced AI Desktop Assistant</em>
+# &#x20; Advanced AI Desktop Assistant
 
 # </p>
 
@@ -20,7 +20,7 @@
 
 # <p align="center">
 
-# &#x20; Local AI • Cloud AI • Voice Intelligence • RAG • Document Intelligence • System Monitoring
+# &#x20; Local AI • Cloud AI • Voice • RAG • Document Intelligence • System Monitoring
 
 # </p>
 
@@ -30,19 +30,15 @@
 
 # 
 
-# \## ◉ SYSTEM OVERVIEW
+# \## Overview
 
 # 
 
-# \*\*J.A.R.V.I.S.\*\* is an advanced AI desktop assistant designed to bring multiple artificial intelligence capabilities into a single futuristic interface.
+# J.A.R.V.I.S. is an advanced AI desktop assistant designed to combine artificial intelligence, voice interaction, document intelligence, local language models, cloud AI, retrieval-augmented generation, and system monitoring inside a futuristic desktop interface.
 
 # 
 
-# The system combines local large language models, cloud AI, voice synthesis, document intelligence, retrieval-augmented generation, system monitoring, and an interactive holographic-inspired user interface.
-
-# 
-
-# The project is built to explore what a modern personal AI computer assistant can look and feel like.
+# The project is designed around the idea of turning a traditional AI chatbot into a complete computer-assistant experience.
 
 # 
 
@@ -50,7 +46,7 @@
 
 # 
 
-# \# ◉ INTERFACE
+# \## Main Interface
 
 # 
 
@@ -62,27 +58,11 @@
 
 # 
 
-# <p align="center">
-
-# &#x20; <strong>MAIN COMMAND INTERFACE</strong>
-
-# </p>
-
-# 
-
-# <p align="center">
-
-# &#x20; Interactive command center for communicating with J.A.R.V.I.S.
-
-# </p>
-
-# 
-
 # \---
 
 # 
 
-# \# ◉ HOLOGRAPHIC CORE
+# \## Holographic Core
 
 # 
 
@@ -94,27 +74,11 @@
 
 # 
 
-# <p align="center">
-
-# &#x20; <strong>HOLOGRAPHIC AI CORE</strong>
-
-# </p>
-
-# 
-
-# <p align="center">
-
-# &#x20; Futuristic visual interface representing the active AI system state.
-
-# </p>
-
-# 
-
 # \---
 
 # 
 
-# \# ◉ AI CONVERSATION
+# \## AI Chat Interface
 
 # 
 
@@ -126,17 +90,17 @@
 
 # 
 
-# <p align="center">
+# \---
 
-# &#x20; <strong>INTELLIGENT CONVERSATION</strong>
+# 
 
-# </p>
+# \## Document Intelligence
 
 # 
 
 # <p align="center">
 
-# &#x20; Interact with local or cloud-based AI through the J.A.R.V.I.S. interface.
+# &#x20; <img src="./screenshots/document\_upload.png" alt="J.A.R.V.I.S. Document Upload" width="95%">
 
 # </p>
 
@@ -146,283 +110,19 @@
 
 # 
 
-# \# ◉ DOCUMENT INTELLIGENCE
+# \## Core Features
 
 # 
 
-# <p align="center">
-
-# &#x20; <img src="./screenshots/document\_upload.png" alt="J.A.R.V.I.S. Document Intelligence" width="95%">
-
-# </p>
+# \### Local AI
 
 # 
 
-# <p align="center">
-
-# &#x20; <strong>DOCUMENT INTELLIGENCE</strong>
-
-# </p>
+# J.A.R.V.I.S. can run AI models locally using Ollama.
 
 # 
 
-# <p align="center">
-
-# &#x20; Upload documents and use artificial intelligence to understand and interact with their content.
-
-# </p>
-
-# 
-
-# \---
-
-# 
-
-# \# ◉ CORE CAPABILITIES
-
-# 
-
-# <table>
-
-# <tr>
-
-# <td width="50%">
-
-# 
-
-# \## 🤖 AI INTELLIGENCE
-
-# 
-
-# • Local AI inference
-
-# • Cloud AI inference
-
-# • Multiple AI providers
-
-# • Model switching
-
-# • Context-aware responses
-
-# 
-
-# </td>
-
-# 
-
-# <td width="50%">
-
-# 
-
-# \## 🎙️ VOICE INTELLIGENCE
-
-# 
-
-# • Text-to-speech
-
-# • Microsoft Edge TTS
-
-# • Voice responses
-
-# • Audio playback
-
-# • Conversational interaction
-
-# 
-
-# </td>
-
-# </tr>
-
-# 
-
-# <tr>
-
-# <td width="50%">
-
-# 
-
-# \## 📚 DOCUMENT INTELLIGENCE
-
-# 
-
-# • PDF processing
-
-# • DOCX processing
-
-# • TXT processing
-
-# • Markdown processing
-
-# • Document-based conversations
-
-# 
-
-# </td>
-
-# 
-
-# <td width="50%">
-
-# 
-
-# \## 🧠 RAG
-
-# 
-
-# • Knowledge retrieval
-
-# • Context extraction
-
-# • Document-based responses
-
-# • AI-assisted information retrieval
-
-# 
-
-# </td>
-
-# </tr>
-
-# 
-
-# <tr>
-
-# <td width="50%">
-
-# 
-
-# \## 🖥️ SYSTEM MONITORING
-
-# 
-
-# • CPU monitoring
-
-# • RAM monitoring
-
-# • System information
-
-# • Real-time application state
-
-# 
-
-# </td>
-
-# 
-
-# <td width="50%">
-
-# 
-
-# \## ◉ HOLOGRAPHIC UI
-
-# 
-
-# • Futuristic interface
-
-# • Animated AI core
-
-# • Visual system states
-
-# • HUD-inspired design
-
-# • Interactive interface elements
-
-# 
-
-# </td>
-
-# </tr>
-
-# </table>
-
-# 
-
-# \---
-
-# 
-
-# \# ◉ AI ARCHITECTURE
-
-# 
-
-# ```text
-
-# &#x20;                        ┌─────────────────────┐
-
-# &#x20;                        │     J.A.R.V.I.S.    │
-
-# &#x20;                        │   Desktop Assistant │
-
-# &#x20;                        └──────────┬──────────┘
-
-# &#x20;                                   │
-
-# &#x20;                   ┌───────────────┼───────────────┐
-
-# &#x20;                   │               │               │
-
-# &#x20;                   ▼               ▼               ▼
-
-# &#x20;             ┌───────────┐   ┌───────────┐   ┌────────────┐
-
-# &#x20;             │  LOCAL AI │   │  CLOUD AI │   │ DOCUMENTS  │
-
-# &#x20;             │  Ollama   │   │ Nemotron  │   │ PDF/DOCX   │
-
-# &#x20;             │  Qwen 2.5 │   │  NVIDIA   │   │ TXT / MD   │
-
-# &#x20;             └─────┬─────┘   └─────┬─────┘   └──────┬─────┘
-
-# &#x20;                   │               │                │
-
-# &#x20;                   └───────────────┼────────────────┘
-
-# &#x20;                                   │
-
-# &#x20;                                   ▼
-
-# &#x20;                          ┌─────────────────┐
-
-# &#x20;                          │  AI PROCESSING  │
-
-# &#x20;                          │    + RAG        │
-
-# &#x20;                          └────────┬────────┘
-
-# &#x20;                                   │
-
-# &#x20;                   ┌───────────────┼───────────────┐
-
-# &#x20;                   │               │               │
-
-# &#x20;                   ▼               ▼               ▼
-
-# &#x20;             ┌──────────┐    ┌──────────┐    ┌───────────┐
-
-# &#x20;             │   VOICE  │    │    HUD   │    │  SYSTEM   │
-
-# &#x20;             │   TTS    │    │    UI    │    │  MONITOR  │
-
-# &#x20;             └──────────┘    └──────────┘    └───────────┘
-
-# ```
-
-# 
-
-# \---
-
-# 
-
-# \# ◉ LOCAL AI
-
-# 
-
-# J.A.R.V.I.S. can operate using a locally hosted language model through \*\*Ollama\*\*.
-
-# 
-
-# \### Local Intelligence
+# Supported local configuration:
 
 # 
 
@@ -430,21 +130,15 @@
 
 # Ollama
 
-# &#x20;  │
-
-# &#x20;  ▼
+# &#x20;   ↓
 
 # Qwen 2.5 3B
 
-# &#x20;  │
+# &#x20;   ↓
 
-# &#x20;  ▼
+# Local AI Inference
 
-# Local Inference
-
-# &#x20;  │
-
-# &#x20;  ▼
+# &#x20;   ↓
 
 # J.A.R.V.I.S.
 
@@ -452,19 +146,7 @@
 
 # 
 
-# \### Advantages
-
-# 
-
-# • Local processing
-
-# • Reduced dependency on cloud services
-
-# • No cloud API required for local conversations
-
-# • Greater control over model execution
-
-# • Suitable for private experimentation
+# Local AI provides a way to interact with an AI model without requiring every conversation to be processed by a cloud service.
 
 # 
 
@@ -472,11 +154,11 @@
 
 # 
 
-# \# ◉ CLOUD AI
+# \### Cloud AI
 
 # 
 
-# J.A.R.V.I.S. can also use cloud-based AI through \*\*NVIDIA Nemotron\*\*.
+# J.A.R.V.I.S. can connect to cloud-based AI through NVIDIA Nemotron.
 
 # 
 
@@ -484,21 +166,15 @@
 
 # J.A.R.V.I.S.
 
-# &#x20;     │
+# &#x20;   ↓
 
-# &#x20;     ▼
+# Cloud AI
 
-# Cloud AI Provider
-
-# &#x20;     │
-
-# &#x20;     ▼
+# &#x20;   ↓
 
 # NVIDIA Nemotron
 
-# &#x20;     │
-
-# &#x20;     ▼
+# &#x20;   ↓
 
 # AI Response
 
@@ -506,7 +182,7 @@
 
 # 
 
-# This allows the system to switch between local and cloud intelligence depending on the selected configuration.
+# The application can use local or cloud intelligence depending on the selected configuration.
 
 # 
 
@@ -514,47 +190,39 @@
 
 # 
 
-# \# ◉ VOICE SYSTEM
+# \### Voice Intelligence
 
 # 
 
-# J.A.R.V.I.S. integrates text-to-speech capabilities to provide spoken responses.
+# J.A.R.V.I.S. supports voice output using Microsoft Edge TTS.
 
 # 
 
 # ```text
 
-# USER INPUT
+# User Input
 
-# &#x20;   │
+# &#x20;   ↓
 
-# &#x20;   ▼
+# AI Processing
 
-# AI PROCESSING
+# &#x20;   ↓
 
-# &#x20;   │
+# Text Response
 
-# &#x20;   ▼
+# &#x20;   ↓
 
-# TEXT RESPONSE
+# Edge TTS
 
-# &#x20;   │
+# &#x20;   ↓
 
-# &#x20;   ▼
-
-# EDGE TTS
-
-# &#x20;   │
-
-# &#x20;   ▼
-
-# VOICE OUTPUT
+# Voice Output
 
 # ```
 
 # 
 
-# The objective is to make interaction feel more natural than a traditional text-only chatbot.
+# This provides a more natural assistant experience compared with a text-only interface.
 
 # 
 
@@ -562,67 +230,77 @@
 
 # 
 
-# \# ◉ DOCUMENT INTELLIGENCE
+# \### Document Intelligence
 
 # 
 
-# J.A.R.V.I.S. can process multiple document formats.
+# J.A.R.V.I.S. can work with multiple document formats.
 
 # 
 
-# | Document Type | Support |
+# | Format   | Support |
 
-# | ------------- | :-----: |
+# | -------- | :-----: |
 
-# | PDF           |    ✓    |
+# | PDF      |   Yes   |
 
-# | DOCX          |    ✓    |
+# | DOCX     |   Yes   |
 
-# | TXT           |    ✓    |
+# | TXT      |   Yes   |
 
-# | Markdown      |    ✓    |
+# | Markdown |   Yes   |
 
 # 
 
-# \### Processing Flow
+# Documents can be processed and used as contextual information for AI conversations.
+
+# 
+
+# \---
+
+# 
+
+# \### Retrieval-Augmented Generation
+
+# 
+
+# RAG allows the assistant to retrieve relevant information from uploaded documents before generating a response.
 
 # 
 
 # ```text
 
-# DOCUMENT
+# Document
 
-# &#x20;   │
+# &#x20;   ↓
 
-# &#x20;   ▼
+# Text Extraction
 
-# TEXT EXTRACTION
+# &#x20;   ↓
 
-# &#x20;   │
+# Content Processing
 
-# &#x20;   ▼
+# &#x20;   ↓
 
-# CONTENT PROCESSING
+# Knowledge Retrieval
 
-# &#x20;   │
+# &#x20;   ↓
 
-# &#x20;   ▼
+# Relevant Context
 
-# KNOWLEDGE RETRIEVAL
+# &#x20;   ↓
 
-# &#x20;   │
+# AI Model
 
-# &#x20;   ▼
+# &#x20;   ↓
 
-# AI CONTEXT
-
-# &#x20;   │
-
-# &#x20;   ▼
-
-# INTELLIGENT RESPONSE
+# Response
 
 # ```
+
+# 
+
+# This makes it possible to ask questions about information contained inside personal documents.
 
 # 
 
@@ -630,73 +308,33 @@
 
 # 
 
-# \# ◉ RAG SYSTEM
+# \### System Monitoring
 
 # 
 
-# Retrieval-Augmented Generation allows J.A.R.V.I.S. to use information from provided documents as contextual knowledge.
+# J.A.R.V.I.S. provides system information while the application is running.
+
+# 
+
+# Monitored information includes:
 
 # 
 
 # ```text
 
-# &#x20;             DOCUMENT
+# CPU Usage
 
-# &#x20;                 │
+# RAM Usage
 
-# &#x20;                 ▼
+# System Status
 
-# &#x20;          ┌─────────────┐
-
-# &#x20;          │   Extract   │
-
-# &#x20;          │    Text     │
-
-# &#x20;          └──────┬──────┘
-
-# &#x20;                 │
-
-# &#x20;                 ▼
-
-# &#x20;          ┌─────────────┐
-
-# &#x20;          │  Process    │
-
-# &#x20;          │  Content    │
-
-# &#x20;          └──────┬──────┘
-
-# &#x20;                 │
-
-# &#x20;                 ▼
-
-# &#x20;          ┌─────────────┐
-
-# &#x20;          │  Retrieve   │
-
-# &#x20;          │  Context    │
-
-# &#x20;          └──────┬──────┘
-
-# &#x20;                 │
-
-# &#x20;                 ▼
-
-# &#x20;          ┌─────────────┐
-
-# &#x20;          │ AI Model    │
-
-# &#x20;          │ Generation  │
-
-# &#x20;          └──────┬──────┘
-
-# &#x20;                 │
-
-# &#x20;                 ▼
-
-# &#x20;              RESPONSE
+# Application Status
 
 # ```
+
+# 
+
+# The information is presented through the assistant interface.
 
 # 
 
@@ -704,33 +342,109 @@
 
 # 
 
-# \# ◉ SYSTEM MONITOR
+# \### Holographic Interface
 
 # 
 
-# J.A.R.V.I.S. provides system-level information while the assistant is running.
+# The user interface is inspired by futuristic computer systems and holographic HUD interfaces.
 
 # 
 
-# \### Monitored Information
+# The interface includes visual elements for:
 
 # 
 
 # ```text
 
-# CPU
+# AI State
 
-# RAM
+# System Status
 
-# SYSTEM STATUS
+# Conversation
 
-# APPLICATION STATUS
+# Processing
+
+# Voice Interaction
+
+# System Monitoring
 
 # ```
 
 # 
 
-# The monitoring layer provides visual feedback directly inside the assistant interface.
+# \---
+
+# 
+
+# \# System Architecture
+
+# 
+
+# ```text
+
+# &#x20;                        J.A.R.V.I.S.
+
+# &#x20;                             │
+
+# &#x20;                             ▼
+
+# &#x20;                   ┌───────────────────┐
+
+# &#x20;                   │  User Interface   │
+
+# &#x20;                   └─────────┬─────────┘
+
+# &#x20;                             │
+
+# &#x20;             ┌───────────────┼───────────────┐
+
+# &#x20;             │               │               │
+
+# &#x20;             ▼               ▼               ▼
+
+# &#x20;       ┌───────────┐   ┌───────────┐   ┌────────────┐
+
+# &#x20;       │  Local AI │   │  Cloud AI │   │ Documents  │
+
+# &#x20;       │  Ollama   │   │ Nemotron  │   │ PDF/DOCX   │
+
+# &#x20;       │ Qwen 2.5  │   │  NVIDIA   │   │ TXT / MD   │
+
+# &#x20;       └─────┬─────┘   └─────┬─────┘   └──────┬─────┘
+
+# &#x20;             │               │                │
+
+# &#x20;             └───────────────┼────────────────┘
+
+# &#x20;                             │
+
+# &#x20;                             ▼
+
+# &#x20;                   ┌───────────────────┐
+
+# &#x20;                   │  AI Processing    │
+
+# &#x20;                   │      + RAG        │
+
+# &#x20;                   └─────────┬─────────┘
+
+# &#x20;                             │
+
+# &#x20;             ┌───────────────┼───────────────┐
+
+# &#x20;             │               │               │
+
+# &#x20;             ▼               ▼               ▼
+
+# &#x20;       ┌───────────┐   ┌───────────┐   ┌────────────┐
+
+# &#x20;       │    TTS    │   │ Holographic│   │  System    │
+
+# &#x20;       │   Voice   │   │     UI     │   │ Monitoring │
+
+# &#x20;       └───────────┘   └────────────┘   └────────────┘
+
+# ```
 
 # 
 
@@ -738,31 +452,75 @@
 
 # 
 
-# \# ◉ TECHNOLOGY STACK
+# \# AI Processing Flow
 
 # 
 
-# | Technology          | Purpose              |
+# ```text
 
-# | ------------------- | -------------------- |
+# &#x20;                   USER
 
-# | Python              | Core application     |
+# &#x20;                    │
 
-# | Ollama              | Local AI runtime     |
+# &#x20;                    ▼
 
-# | Qwen 2.5 3B         | Local language model |
+# &#x20;            ┌───────────────┐
 
-# | NVIDIA Nemotron     | Cloud AI             |
+# &#x20;            │ J.A.R.V.I.S.  │
 
-# | Microsoft Edge TTS  | Voice generation     |
+# &#x20;            │ Input Layer   │
 
-# | RAG                 | Knowledge retrieval  |
+# &#x20;            └───────┬───────┘
 
-# | Document Processing | File intelligence    |
+# &#x20;                    │
 
-# | psutil              | System monitoring    |
+# &#x20;                    ▼
 
-# | Git                 | Version control      |
+# &#x20;            ┌───────────────┐
+
+# &#x20;            │ AI Provider   │
+
+# &#x20;            └───────┬───────┘
+
+# &#x20;                    │
+
+# &#x20;         ┌──────────┴──────────┐
+
+# &#x20;         │                     │
+
+# &#x20;         ▼                     ▼
+
+# &#x20;    Local Model           Cloud Model
+
+# &#x20;     Ollama               Nemotron
+
+# &#x20;         │                     │
+
+# &#x20;         └──────────┬──────────┘
+
+# &#x20;                    │
+
+# &#x20;                    ▼
+
+# &#x20;             Context / RAG
+
+# &#x20;                    │
+
+# &#x20;                    ▼
+
+# &#x20;             AI Generation
+
+# &#x20;                    │
+
+# &#x20;         ┌──────────┴──────────┐
+
+# &#x20;         │                     │
+
+# &#x20;         ▼                     ▼
+
+# &#x20;      Text UI              Voice TTS
+
+# ```
 
 # 
 
@@ -770,7 +528,39 @@
 
 # 
 
-# \# ◉ INSTALLATION
+# \# Technology Stack
+
+# 
+
+# | Technology          | Purpose               |
+
+# | ------------------- | --------------------- |
+
+# | Python              | Core application      |
+
+# | Ollama              | Local AI runtime      |
+
+# | Qwen 2.5 3B         | Local language model  |
+
+# | NVIDIA Nemotron     | Cloud AI              |
+
+# | Microsoft Edge TTS  | Voice generation      |
+
+# | RAG                 | Knowledge retrieval   |
+
+# | Document Processing | Document intelligence |
+
+# | psutil              | System monitoring     |
+
+# | Git                 | Version control       |
+
+# 
+
+# \---
+
+# 
+
+# \# Installation
 
 # 
 
@@ -778,7 +568,7 @@
 
 # 
 
-# Before running J.A.R.V.I.S., install:
+# Install the following before running the application:
 
 # 
 
@@ -800,7 +590,7 @@
 
 # 
 
-# \## 01. Clone the Project
+# \## Clone the Project
 
 # 
 
@@ -812,7 +602,7 @@
 
 # 
 
-# Enter the project directory:
+# Move into the project directory:
 
 # 
 
@@ -828,11 +618,11 @@
 
 # 
 
-# \## 02. Create Virtual Environment
+# \## Create a Virtual Environment
 
 # 
 
-# \### Windows
+# Windows:
 
 # 
 
@@ -844,7 +634,7 @@
 
 # 
 
-# Activate:
+# Activate the environment:
 
 # 
 
@@ -856,7 +646,7 @@
 
 # 
 
-# \### Linux / macOS
+# Linux or macOS:
 
 # 
 
@@ -884,7 +674,7 @@
 
 # 
 
-# \## 03. Install Dependencies
+# \## Install Dependencies
 
 # 
 
@@ -900,11 +690,11 @@
 
 # 
 
-# \# ◉ LOCAL AI CONFIGURATION
+# \# Ollama Configuration
 
 # 
 
-# Install the required Ollama model:
+# Install the required local model:
 
 # 
 
@@ -916,7 +706,7 @@
 
 # 
 
-# Start Ollama:
+# Start the Ollama service:
 
 # 
 
@@ -928,7 +718,7 @@
 
 # 
 
-# Verify:
+# Verify the installed model:
 
 # 
 
@@ -940,7 +730,7 @@
 
 # 
 
-# The local model should appear in the installed model list.
+# The Qwen model should appear in the installed model list.
 
 # 
 
@@ -948,7 +738,7 @@
 
 # 
 
-# \# ◉ CLOUD AI CONFIGURATION
+# \# NVIDIA Nemotron Configuration
 
 # 
 
@@ -956,23 +746,23 @@
 
 # 
 
-# Keep credentials private.
+# Keep API credentials private.
+
+# 
+
+# Do not:
 
 # 
 
 # ```text
 
-# DO NOT:
+# Hard-code API keys
 
-# 
+# Commit API keys
 
-# • Hard-code API keys
+# Upload credentials
 
-# • Commit secrets
-
-# • Upload credentials
-
-# • Share private API keys
+# Share private keys
 
 # ```
 
@@ -984,13 +774,13 @@
 
 # ```text
 
-# • Environment variables
+# Environment variables
 
-# • Local configuration
+# Local configuration
 
-# • Secure credential storage
+# Secure credential storage
 
-# • .gitignore protection
+# .gitignore protection
 
 # ```
 
@@ -1000,11 +790,11 @@
 
 # 
 
-# \# ◉ STARTING J.A.R.V.I.S.
+# \# Running J.A.R.V.I.S.
 
 # 
 
-# On Windows:
+# On Windows, use the included launcher:
 
 # 
 
@@ -1016,7 +806,7 @@
 
 # 
 
-# The launcher initializes the application and starts the J.A.R.V.I.S. interface.
+# The launcher starts the J.A.R.V.I.S. application.
 
 # 
 
@@ -1024,7 +814,7 @@
 
 # 
 
-# \# ◉ PROJECT STRUCTURE
+# \# Project Structure
 
 # 
 
@@ -1074,133 +864,163 @@
 
 # 
 
-# \# ◉ DEVELOPMENT ROADMAP
+# \# Security
 
 # 
 
-# \## AI
+# J.A.R.V.I.S. can communicate with external AI services when cloud functionality is enabled.
 
 # 
 
-# ✓ Local AI
-
-# ✓ Cloud AI
-
-# ✓ Model switching
-
-# ✓ Context-aware conversations
-
-# 
-
-# ◻ Long-term memory
-
-# ◻ Personal knowledge base
-
-# ◻ Multi-agent architecture
-
-# ◻ Autonomous task execution
-
-# 
-
-# \---
-
-# 
-
-# \## VOICE
-
-# 
-
-# ✓ Text-to-speech
-
-# ✓ Voice responses
-
-# 
-
-# ◻ Wake-word detection
-
-# ◻ Advanced speech recognition
-
-# ◻ Continuous conversation
-
-# ◻ Natural interruption handling
-
-# 
-
-# \---
-
-# 
-
-# \## VISION
-
-# 
-
-# ◻ Computer vision
-
-# ◻ Screen understanding
-
-# ◻ Object detection
-
-# ◻ Camera interaction
-
-# 
-
-# \---
-
-# 
-
-# \## AUTOMATION
-
-# 
-
-# ◻ Desktop automation
-
-# ◻ Application control
-
-# ◻ Web automation
-
-# ◻ Smart workflows
-
-# ◻ IoT integration
-
-# 
-
-# \---
-
-# 
-
-# \# ◉ SECURITY
-
-# 
-
-# J.A.R.V.I.S. can interact with external AI services when cloud functionality is enabled.
-
-# 
-
-# Always protect sensitive credentials.
+# Protect all credentials and sensitive configuration files.
 
 # 
 
 # ```text
 
-# ┌──────────────────────────────────────┐
+# Use environment variables
 
-# │            SECURITY RULES            │
+# Keep credentials outside source code
 
-# ├──────────────────────────────────────┤
+# Protect configuration files
 
-# │ ✓ Keep API credentials private       │
+# Use .gitignore
 
-# │ ✓ Use environment variables          │
+# Rotate exposed credentials
 
-# │ ✓ Protect configuration files        │
+# ```
 
-# │ ✓ Use .gitignore                     │
+# 
 
-# │ ✗ Never commit API keys              │
+# Never commit private API keys to the repository.
 
-# │ ✗ Never expose private credentials   │
+# 
 
-# └──────────────────────────────────────┘
+# \---
+
+# 
+
+# \# Roadmap
+
+# 
+
+# \## Artificial Intelligence
+
+# 
+
+# \* Local AI
+
+# \* Cloud AI
+
+# \* AI provider switching
+
+# \* Context-aware conversations
+
+# \* Long-term memory
+
+# \* Personal knowledge base
+
+# \* Multi-agent architecture
+
+# \* Autonomous task execution
+
+# 
+
+# \## Voice
+
+# 
+
+# \* Text-to-speech
+
+# \* Voice responses
+
+# \* Wake-word detection
+
+# \* Advanced speech recognition
+
+# \* Continuous conversation
+
+# \* Natural interruption handling
+
+# 
+
+# \## Vision
+
+# 
+
+# \* Computer vision
+
+# \* Screen understanding
+
+# \* Object detection
+
+# \* Camera interaction
+
+# 
+
+# \## Automation
+
+# 
+
+# \* Desktop automation
+
+# \* Application control
+
+# \* Web automation
+
+# \* Smart workflows
+
+# \* IoT integration
+
+# 
+
+# \## Intelligence
+
+# 
+
+# \* Document understanding
+
+# \* RAG
+
+# \* Web intelligence
+
+# \* Long-term memory
+
+# \* Personal knowledge system
+
+# 
+
+# \---
+
+# 
+
+# \# Development
+
+# 
+
+# J.A.R.V.I.S. is designed as an extensible AI assistant.
+
+# 
+
+# The architecture can be expanded with additional:
+
+# 
+
+# ```text
+
+# AI Models
+
+# Voice Models
+
+# Vision Models
+
+# Automation Tools
+
+# Knowledge Sources
+
+# Memory Systems
+
+# System Integrations
 
 # ```
 
@@ -1210,15 +1030,15 @@
 
 # 
 
-# \# ◉ CONTRIBUTION
+# \# Contribution
 
 # 
 
-# The project can be extended with new AI models, tools, automation modules, interfaces, and intelligence capabilities.
+# The project can be extended through new AI capabilities, interface improvements, automation modules, document processing features, and intelligent tools.
 
 # 
 
-# Suggested development areas:
+# Potential development areas include:
 
 # 
 
@@ -1230,15 +1050,13 @@
 
 # VISION
 
-# AUTOMATION
-
 # RAG
 
 # MEMORY
 
-# SYSTEM CONTROL
+# AUTOMATION
 
-# SMART HOME
+# SYSTEM CONTROL
 
 # MULTI-AGENT AI
 
@@ -1250,19 +1068,27 @@
 
 # 
 
-# \# ◉ PROJECT PHILOSOPHY
+# \# Project Philosophy
 
 # 
 
-# J.A.R.V.I.S. is built around a simple idea:
+# J.A.R.V.I.S. is built around one simple concept:
 
 # 
 
-# > \*\*Artificial intelligence should feel like an intelligent computer system, not just a chat window.\*\*
+# ```text
+
+# Artificial intelligence should feel
+
+# like an intelligent computer system,
+
+# not just a chat window.
+
+# ```
 
 # 
 
-# The project focuses on combining intelligence, interaction, automation, and visual feedback into one unified experience.
+# The project combines intelligence, interaction, automation, voice, documents, and visual feedback into a single desktop experience.
 
 # 
 
@@ -1270,19 +1096,11 @@
 
 # 
 
-# \# ◉ AUTHOR
+# \# Author
 
 # 
 
-# <p align="center">
-
-# 
-
-# <strong>ASHWIK BIRE</strong>
-
-# 
-
-# <br>
+# Ashwik Bire
 
 # 
 
@@ -1290,15 +1108,7 @@
 
 # 
 
-# <br><br>
-
-# 
-
 # Python • Artificial Intelligence • Data • Cloud • Automation • Microsoft Fabric • Power BI
-
-# 
-
-# </p>
 
 # 
 
@@ -1306,27 +1116,23 @@
 
 # 
 
-# \# ⚡ J.A.R.V.I.S.
+# \# J.A.R.V.I.S.
 
 # 
 
-# <p align="center">
+# ```text
 
-# 
+# YOUR AI.
 
-# <strong>YOUR AI. YOUR SYSTEM. YOUR INTELLIGENCE.</strong>
+# YOUR SYSTEM.
 
-# 
+# YOUR INTELLIGENCE.
 
-# <br><br>
+# ```
 
 # 
 
 # Built with Python, artificial intelligence, experimentation, and curiosity.
-
-# 
-
-# </p>
 
 
 
