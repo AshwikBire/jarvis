@@ -1,8 +1,23 @@
+# Core UI Framework
 PyQt6>=6.5.0
+
+# System Performance
 psutil>=5.9.0
+
+# HTTP Requests
 requests>=2.31.0
+
+# Environment Variables
 python-dotenv>=1.0.0
+
+# Text-to-Speech
 edge-tts>=6.1.0
 pygame>=2.5.0
+
+# Document Processing (RAG)
 PyPDF2>=3.0.0
 python-docx>=0.8.11
+
+# Optional: For better PDF parsing
+# pypdf>=3.0.0
+# pdfplumber>=0.10.0

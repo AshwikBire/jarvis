@@ -1,45 +1,112 @@
-# Jarvis — Local AI Assistant (Stage 1–3, voice out)
+# \# 🚀 J.A.R.V.I.S. — Advanced Holographic AI Assistant
 
-Holographic-UI desktop assistant, no API keys, no cloud subscription costs.
-Runs on Windows/Mac/Linux with just 8GB RAM (CPU-only is fine).
+# 
 
-## What's included right now
-- Advanced holographic HUD — layered rotating rings, radar ticks, hex-grid backdrop,
-  scan-line sweep, particles, and a state-reactive core (color shifts for idle /
-  listening / thinking / speaking) — pure PyQt6, no image assets
-- **Live dashboard widgets**: digital clock + date, CPU/RAM radial gauges (real
-  system stats via psutil), and a session panel showing uptime, message count,
-  and last-reply latency
-- Working text chat wired to a **local** LLM via Ollama (qwen2.5:3b), tuned for
-  shorter, more confident, speech-friendly replies
-- Jarvis speaks its replies out loud (edge-tts) with a live waveform animation
-- A VOICE: ON/OFF toggle button if you want text-only at times
-- Threaded throughout so the UI never freezes while thinking or speaking
+# \[!\[Python](https://img.shields.io/badge/Python-3.9%2B-blue)](https://python.org)
 
-## 📸 Screenshots
+# \[!\[PyQt6](https://img.shields.io/badge/PyQt6-6.5%2B-brightgreen)](https://riverbankcomputing.com/software/pyqt/)
 
-### Main Interface
-<div align="center">
-  <img src="screenshots/main-interface.png" alt="Jarvis Main Interface" width="100%">
-  <br>
-  <em>Jarvis - Holographic AI Assistant Interface</em>
-</div>
+# \[!\[License](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
 
-### Important: one piece isn't fully offline
-The brain (Ollama/qwen2.5:3b) is 100% local — no internet, no API key, ever.
-**Voice output (edge-tts) needs an internet connection** — it's a free Microsoft
-service with no key required, but it does call out to the internet each time
-Jarvis speaks. If you want zero-internet operation end to end, ask and I'll swap
-this for `pyttsx3` (fully offline, more robotic-sounding voice).
+# 
 
-## Two AI brains, switchable
-- **LOCAL** — Ollama + qwen2.5:3b, fully offline, free forever, slower on 8GB RAM
-- **NEMOTRON** — NVIDIA's free cloud API, needs internet, much faster and sharper
+# > \*\*J.A.R.V.I.S.\*\* (Just A Rather Very Intelligent System) — A holographic AI assistant with natural voice, document understanding, and dual AI brains.
 
-Switch anytime with the BRAIN button on the left panel — each keeps its own
-separate conversation history.
+# 
 
-### One-time Nemotron setup (optional — skip if you only want local)
-1. Get a free key at **build.nvidia.com** → sign up (no card needed) → Get API Key
-   (starts with `nvapi-`)
-2. Copy `.env.example` to `.env`:
+# \---
+
+# 
+
+# \## ✨ Features
+
+# 
+
+# | Category | Features |
+
+# |----------|----------|
+
+# | 🎨 \*\*Holographic UI\*\* | Rainbow rings, particle system, scanline sweep, glass-morphism design |
+
+# | 🗣️ \*\*Natural Voice\*\* | Microsoft Edge TTS (Jenny Neural) — reads responses aloud |
+
+# | 🧠 \*\*Dual AI Brains\*\* | Local (Ollama/qwen2.5:3b) or Cloud (NVIDIA Nemotron) |
+
+# | 📄 \*\*Document RAG\*\* | Upload PDF, DOCX, TXT, MD — ask questions about them |
+
+# | 🔑 \*\*API Key Manager\*\* | Set Nemotron API key directly in the UI |
+
+# | ⌨️ \*\*Keyboard Shortcuts\*\* | 10+ shortcuts for power users |
+
+# | 📊 \*\*Performance Metrics\*\* | Real-time CPU \& RAM monitoring |
+
+# | 📱 \*\*Responsive Design\*\* | Adapts to any screen size |
+
+# | 🌓 \*\*Dark/Light Mode\*\* | Theme switching built-in |
+
+# 
+
+# \---
+
+# 
+
+# \## 🖥️ Screenshots
+
+# 
+
+# \### Main Interface
+
+
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+
+│ ✦ J.A.R.V.I.S. AI Assistant ✦ Developed By Ashwik Bire ✦ │
+
+│ \[🧠 Local] \[🔊 ON] \[📎 Upload] \[🗑️ Clear] \[⏹️ Stop] \[🔑 API Key] │
+
+├─────────────────────────────────────────────────────────────────────────────┤
+
+│ ┌──────────────────────────────┐ ┌──────────────────────────────────────┐ │
+
+│ │ ⚡ HOLOGRAPHIC CORE │ │ 💬 CHAT │ │
+
+│ │ (Rainbow Rings, Particles) │ │ \[12:34] 👤 Hello Jarvis │ │
+
+│ │ │ │ \[12:34] 🤖 Hello! How can I help? │ │
+
+│ │ │ │ \[12:35] 📄 Uploaded: report.pdf │ │
+
+│ │ │ │ \[12:35] 🤖 Based on the document... │ │
+
+│ │ │ │ │ │
+
+│ └──────────────────────────────┘ └──────────────────────────────────────┘ │
+
+├─────────────────────────────────────────────────────────────────────────────┤
+
+│ ● READY 📋 5 msgs • 📄 2 docs • ⏱️ 00:02:30 ⌨️ Ctrl+H help │
+
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+
+
+
+
+
+\---
+
+
+
+\## 🚀 Quick Start
+
+
+
+\### 1. Clone the Repository
+
+```bash
+
+git clone https://github.com/AshwikBire/jarvis.git
+
+cd jarvis
+

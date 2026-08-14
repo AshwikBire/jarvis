@@ -1,9 +1,10 @@
 """
 Jarvis — Advanced Holographic AI Assistant with Natural Voice
-Premium UI with Glass-morphism & Neon Design (Responsive)
+Complete AI Assistant with Chat, Voice, and Document RAG
 Developed By Ashwik Bire
 Portfolio: https://ashwikbire.github.io/My-Portfolio/
 LinkedIn: https://www.linkedin.com/in/ashwik-bire-b2a000186/
+GitHub: https://github.com/AshwikBire
 """
 
 import sys
@@ -12,6 +13,7 @@ import time
 import hashlib
 import asyncio
 import tempfile
+import re
 from datetime import datetime
 from pathlib import Path
 
@@ -20,12 +22,15 @@ from PyQt6.QtWidgets import (
     QHBoxLayout, QLabel, QPushButton, QTextEdit, 
     QLineEdit, QFrame, QScrollArea, QMessageBox,
     QFileDialog, QListWidget, QListWidgetItem, QSizePolicy,
-    QSplitter, QProgressBar
+    QSplitter, QProgressBar, QDialog, QDialogButtonBox,
+    QFormLayout, QLineEdit as QLineEditWidget,
+    QComboBox
 )
-from PyQt6.QtCore import Qt, QTimer, QThread, pyqtSignal, QSize, QEvent
+from PyQt6.QtCore import Qt, QTimer, QThread, pyqtSignal, QSize, QEvent, QUrl
 from PyQt6.QtGui import (
     QFont, QPalette, QColor, QShortcut, QKeySequence, 
-    QLinearGradient, QBrush, QPainter, QPen, QIcon, QFontDatabase
+    QLinearGradient, QBrush, QPainter, QPen, QIcon, QPixmap,
+    QDesktopServices
 )
 
 # Import holographic widget
@@ -38,13 +43,6 @@ try:
 except ImportError:
     HAS_OLLAMA = False
     print("⚠️ ollama_client.py not found")
-
-try:
-    from dotenv import load_dotenv
-    load_dotenv()
-    HAS_DOTENV = True
-except ImportError:
-    HAS_DOTENV = False
 
 # Check for TTS dependencies
 try:
@@ -64,7 +62,167 @@ except ImportError:
 
 
 # ============================================================
-# TEXT-TO-SPEECH ENGINE (Natural Voice)
+# API KEY DIALOG (Startup)
+# ============================================================
+
+class APIKeyDialog(QDialog):
+    """Dialog to get Nemotron API key on startup"""
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setWindowTitle("🔑 Nemotron API Key Required")
+        self.setMinimumSize(550, 280)
+        self.setStyleSheet("""
+            QDialog {
+                background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+                    stop:0 #05080f, stop:0.5 #0a121f, stop:1 #060e1a);
+                border: 1px solid rgba(70, 220, 255, 0.1);
+                border-radius: 16px;
+            }
+            QLabel {
+                color: rgba(160, 200, 240, 0.8);
+                font-family: 'Segoe UI', sans-serif;
+                font-size: 13px;
+            }
+            QLineEdit {
+                background: rgba(6, 10, 20, 0.6);
+                border: 1px solid rgba(70, 220, 255, 0.1);
+                border-radius: 8px;
+                color: rgba(160, 200, 240, 0.9);
+                font-family: 'Segoe UI', sans-serif;
+                font-size: 13px;
+                padding: 8px 12px;
+            }
+            QLineEdit:focus {
+                border-color: rgba(70, 220, 255, 0.3);
+            }
+            QPushButton {
+                background: rgba(70, 220, 255, 0.08);
+                color: rgba(160, 200, 240, 0.7);
+                border: 1px solid rgba(70, 220, 255, 0.06);
+                border-radius: 8px;
+                padding: 8px 20px;
+                font-family: 'Segoe UI', sans-serif;
+                font-size: 12px;
+            }
+            QPushButton:hover {
+                background: rgba(70, 220, 255, 0.15);
+                border-color: rgba(70, 220, 255, 0.15);
+            }
+        """)
+        
+        layout = QVBoxLayout(self)
+        layout.setContentsMargins(24, 24, 24, 24)
+        layout.setSpacing(16)
+        
+        # Title
+        title = QLabel("🔑 NVIDIA Nemotron API Key")
+        title.setStyleSheet("font-size: 18px; font-weight: 600; color: #46dcff;")
+        layout.addWidget(title)
+        
+        # Description
+        desc = QLabel(
+            "Enter your NVIDIA Nemotron API key to use cloud AI.\n"
+            "Get your free key at: build.nvidia.com\n\n"
+            "💡 You can also use Local AI (Ollama) without a key."
+        )
+        desc.setWordWrap(True)
+        desc.setStyleSheet("color: rgba(140, 180, 220, 0.5); font-size: 12px;")
+        layout.addWidget(desc)
+        
+        # API Key input
+        form = QFormLayout()
+        form.setSpacing(10)
+        
+        self.api_key_input = QLineEditWidget()
+        self.api_key_input.setPlaceholderText("nvapi-...")
+        self.api_key_input.setEchoMode(QLineEditWidget.EchoMode.Password)
+        self.api_key_input.setMinimumHeight(36)
+        form.addRow("API Key:", self.api_key_input)
+        
+        # Show/Hide key checkbox
+        show_layout = QHBoxLayout()
+        self.show_key_checkbox = QPushButton("👁️ Show")
+        self.show_key_checkbox.setStyleSheet("""
+            QPushButton {
+                background: transparent;
+                color: rgba(140, 180, 220, 0.3);
+                border: none;
+                font-size: 11px;
+                padding: 2px 8px;
+            }
+            QPushButton:hover {
+                color: rgba(140, 180, 220, 0.5);
+            }
+        """)
+        self.show_key_checkbox.clicked.connect(self._toggle_key_visibility)
+        show_layout.addWidget(self.show_key_checkbox)
+        show_layout.addStretch()
+        form.addRow("", show_layout)
+        
+        layout.addLayout(form)
+        
+        # Buttons
+        button_layout = QHBoxLayout()
+        
+        skip_btn = QPushButton("Skip (Use Local AI)")
+        skip_btn.setStyleSheet("""
+            QPushButton {
+                background: rgba(90, 255, 170, 0.05);
+                color: rgba(90, 255, 170, 0.5);
+                border: 1px solid rgba(90, 255, 170, 0.06);
+                border-radius: 8px;
+                padding: 8px 20px;
+                font-family: 'Segoe UI', sans-serif;
+                font-size: 12px;
+            }
+            QPushButton:hover {
+                background: rgba(90, 255, 170, 0.12);
+                border-color: rgba(90, 255, 170, 0.12);
+                color: rgba(90, 255, 170, 0.7);
+            }
+        """)
+        skip_btn.clicked.connect(self.reject)
+        button_layout.addWidget(skip_btn)
+        
+        button_layout.addStretch()
+        
+        save_btn = QPushButton("✅ Save API Key")
+        save_btn.setStyleSheet("""
+            QPushButton {
+                background: rgba(70, 220, 255, 0.08);
+                color: rgba(70, 220, 255, 0.7);
+                border: 1px solid rgba(70, 220, 255, 0.06);
+                border-radius: 8px;
+                padding: 8px 24px;
+                font-family: 'Segoe UI', sans-serif;
+                font-size: 12px;
+                font-weight: 500;
+            }
+            QPushButton:hover {
+                background: rgba(70, 220, 255, 0.15);
+                border-color: rgba(70, 220, 255, 0.15);
+                color: rgba(70, 220, 255, 0.9);
+            }
+        """)
+        save_btn.clicked.connect(self.accept)
+        button_layout.addWidget(save_btn)
+        
+        layout.addLayout(button_layout)
+        
+    def _toggle_key_visibility(self):
+        if self.api_key_input.echoMode() == QLineEditWidget.EchoMode.Password:
+            self.api_key_input.setEchoMode(QLineEditWidget.EchoMode.Normal)
+            self.show_key_checkbox.setText("🙈 Hide")
+        else:
+            self.api_key_input.setEchoMode(QLineEditWidget.EchoMode.Password)
+            self.show_key_checkbox.setText("👁️ Show")
+    
+    def get_api_key(self):
+        return self.api_key_input.text().strip()
+
+
+# ============================================================
+# TEXT-TO-SPEECH ENGINE
 # ============================================================
 
 class TTSEngine:
@@ -74,64 +232,47 @@ class TTSEngine:
         self.is_speaking = False
         self.is_enabled = True
         self.current_thread = None
-        self.voice = "en-US-JennyNeural"  # Natural female voice
-        self.rate = "-5%"  # Slightly slower for clarity
+        self.voice = "en-US-JennyNeural"
+        self.rate = "-5%"
         self.pitch = "+0Hz"
         
     def speak(self, text):
-        """Speak text using edge-tts with pygame playback"""
         if not self.is_enabled or not text:
             return
-            
         if not HAS_EDGE_TTS or not HAS_PYGAME:
-            print("⚠️ TTS not available. Install edge-tts and pygame")
             return
             
-        # Stop any current speech
         self.stop()
-        
-        # Start speaking in a separate thread
         self.current_thread = QThread()
         self.current_thread.run = lambda: self._speak_sync(text)
         self.current_thread.start()
         
     def _speak_sync(self, text):
-        """Synchronous speech generation and playback"""
         self.is_speaking = True
-        
         try:
-            # Generate speech file
             temp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".mp3")
             temp_path = temp_file.name
             temp_file.close()
             
-            # Generate speech using edge-tts
             communicate = edge_tts.Communicate(text, self.voice, rate=self.rate, pitch=self.pitch)
             asyncio.run(communicate.save(temp_path))
             
-            # Play audio
             if HAS_PYGAME and os.path.exists(temp_path):
                 pygame.mixer.music.load(temp_path)
                 pygame.mixer.music.play()
-                
-                # Wait for playback to finish
                 while pygame.mixer.music.get_busy():
                     time.sleep(0.1)
                     
-            # Clean up temp file
             try:
                 os.unlink(temp_path)
             except:
                 pass
-                
         except Exception as e:
             print(f"⚠️ TTS error: {e}")
-            
         finally:
             self.is_speaking = False
             
     def stop(self):
-        """Stop current speech"""
         if HAS_PYGAME:
             try:
                 pygame.mixer.music.stop()
@@ -144,7 +285,6 @@ class TTSEngine:
             self.current_thread = None
             
     def toggle(self):
-        """Toggle TTS on/off"""
         self.is_enabled = not self.is_enabled
         if not self.is_enabled:
             self.stop()
@@ -252,19 +392,22 @@ class ChatWorker(QThread):
         self.tts_engine = None
         self.voice_enabled = True
         self.use_nemotron = False
+        self.nemotron_api_key = ""
+        self.ai_model = "local"  # "local" or "nemotron"
         
-    def setup(self, message, client, doc_processor=None, tts_engine=None, voice_enabled=True, use_nemotron=False):
+    def setup(self, message, client, doc_processor=None, tts_engine=None, 
+              voice_enabled=True, ai_model="local", nemotron_api_key=""):
         self.message = message
         self.client = client
         self.doc_processor = doc_processor
         self.tts_engine = tts_engine
         self.voice_enabled = voice_enabled
-        self.use_nemotron = use_nemotron
+        self.ai_model = ai_model
+        self.nemotron_api_key = nemotron_api_key
         
     def run(self):
         try:
-            # Start thinking
-            self.status_update.emit("thinking", "#be78ff")
+            self.status_update.emit("", "#be78ff")
             self.progress_update.emit(20)
             
             # Get context from documents
@@ -279,8 +422,8 @@ class ChatWorker(QThread):
             else:
                 full_prompt = self.message
             
-            # Get response from LLM
-            if self.use_nemotron and HAS_DOTENV:
+            # Get response based on selected AI
+            if self.ai_model == "nemotron" and self.nemotron_api_key:
                 response = self._get_nemotron_response(full_prompt)
             else:
                 if self.client and hasattr(self.client, 'chat'):
@@ -290,11 +433,9 @@ class ChatWorker(QThread):
             
             self.progress_update.emit(60)
             
-            # Add context note if used
             if context:
-                response = f"📄 Based on uploaded documents:\n\n{response}"
+                response = f"📄 {response}"
             
-            # Send response to chat
             self.response_ready.emit(response)
             self.progress_update.emit(80)
             
@@ -303,11 +444,9 @@ class ChatWorker(QThread):
                 self.status_update.emit("speaking", "#ffc850")
                 self.speaking_started.emit()
                 
-                # Clean response for speaking (remove emojis and markdown)
                 clean_response = self._clean_for_speech(response)
                 self.tts_engine.speak(clean_response)
                 
-                # Wait for speaking to finish
                 timeout = 0
                 while self.tts_engine.is_speaking and timeout < 600:
                     time.sleep(0.1)
@@ -315,33 +454,29 @@ class ChatWorker(QThread):
                     self.progress_update.emit(80 + int(timeout / 6))
                 
                 self.speaking_finished.emit()
-                self.status_update.emit("idle", "#46dcff")
+                self.status_update.emit("", "#46dcff")
             else:
-                self.status_update.emit("idle", "#46dcff")
+                self.status_update.emit("", "#46dcff")
             
             self.progress_update.emit(100)
             
         except Exception as e:
             self.response_ready.emit(f"⚠️ Error: {str(e)}")
-            self.status_update.emit("idle", "#46dcff")
+            self.status_update.emit("", "#46dcff")
             self.progress_update.emit(100)
     
     def _clean_for_speech(self, text):
-        """Clean text for speech synthesis"""
-        # Remove emojis and special characters
-        import re
-        # Remove markdown formatting
         text = re.sub(r'\*\*', '', text)
         text = re.sub(r'\*', '', text)
         text = re.sub(r'`', '', text)
         text = re.sub(r'#', '', text)
-        # Remove emojis
+        text = re.sub(r'📄', '', text)
         emoji_pattern = re.compile("["
-            u"\U0001F600-\U0001F64F"  # emoticons
-            u"\U0001F300-\U0001F5FF"  # symbols & pictographs
-            u"\U0001F680-\U0001F6FF"  # transport & map symbols
-            u"\U0001F1E0-\U0001F1FF"  # flags (iOS)
-            u"\U00002500-\U00002BEF"  # chinese char
+            u"\U0001F600-\U0001F64F"
+            u"\U0001F300-\U0001F5FF"
+            u"\U0001F680-\U0001F6FF"
+            u"\U0001F1E0-\U0001F1FF"
+            u"\U00002500-\U00002BEF"
             u"\U00002702-\U000027B0"
             u"\U000024C2-\U0001F251"
             u"\U0001f926-\U0001f937"
@@ -352,23 +487,19 @@ class ChatWorker(QThread):
             u"\u23cf"
             u"\u23e9"
             u"\u231a"
-            u"\ufe0f"  # dingbats
+            u"\ufe0f"
             u"\u3030"
             "]+", flags=re.UNICODE)
         text = emoji_pattern.sub('', text)
-        # Remove "📄 Based on uploaded documents:" prefix for speech
-        text = re.sub(r'📄 Based on uploaded documents:\n\n', '', text)
         return text.strip()
     
     def _get_nemotron_response(self, prompt):
         import requests
-        import os
-        api_key = os.getenv("NEMOTRON_API_KEY")
-        if not api_key:
-            return "❌ Nemotron API key not found."
+        if not self.nemotron_api_key:
+            return "❌ Nemotron API key not provided."
         url = "https://api.nvcf.nvidia.com/v2/nvcf/pexec/functions"
         headers = {
-            "Authorization": f"Bearer {api_key}",
+            "Authorization": f"Bearer {self.nemotron_api_key}",
             "Content-Type": "application/json"
         }
         data = {
@@ -387,13 +518,13 @@ class ChatWorker(QThread):
 
 
 # ============================================================
-# MAIN WINDOW — SPEAKING ASSISTANT
+# MAIN WINDOW
 # ============================================================
 
 class JarvisWindow(QMainWindow):
-    def __init__(self):
+    def __init__(self, nemotron_api_key=""):
         super().__init__()
-        self.setWindowTitle("J.A.R.V.I.S. — Speaking AI Assistant")
+        self.setWindowTitle("J.A.R.V.I.S. — Advanced AI Assistant")
         
         # Start with a good default size
         screen = QApplication.primaryScreen().geometry()
@@ -414,7 +545,8 @@ class JarvisWindow(QMainWindow):
         self.doc_processor = DocumentProcessor()
         self.tts_engine = TTSEngine()
         self.voice_enabled = True
-        self.use_nemotron = False
+        self.nemotron_api_key = nemotron_api_key
+        self.ai_model = "local"  # "local" or "nemotron"
         self.is_processing = False
         self.start_time = datetime.now()
         self.message_count = 0
@@ -455,38 +587,7 @@ class JarvisWindow(QMainWindow):
             if is_small:
                 self.splitter.setSizes([int(width * 0.5), int(width * 0.5)])
             else:
-                self.splitter.setSizes([int(width * 0.6), int(width * 0.4)])
-        
-        if hasattr(self, 'chat_display'):
-            font_size = 11 if width > 1400 else 10
-            self.chat_display.setStyleSheet(f"""
-                QTextEdit {{
-                    background: rgba(6, 10, 20, 0.4);
-                    border: 1px solid rgba(70, 220, 255, 0.04);
-                    border-radius: 12px;
-                    color: rgba(180, 210, 240, 0.85);
-                    font-family: 'Consolas', 'Segoe UI', monospace;
-                    font-size: {font_size}px;
-                    padding: {12 if width > 1400 else 8}px {14 if width > 1400 else 10}px;
-                    selection-background-color: rgba(70, 220, 255, 0.1);
-                }}
-                QTextEdit:focus {{
-                    border-color: rgba(70, 220, 255, 0.1);
-                }}
-                QScrollBar:vertical {{
-                    background: rgba(6, 10, 20, 0.5);
-                    width: {6 if width > 1400 else 4}px;
-                    border-radius: 3px;
-                }}
-                QScrollBar::handle:vertical {{
-                    background: rgba(70, 220, 255, 0.1);
-                    border-radius: 3px;
-                    min-height: 20px;
-                }}
-                QScrollBar::handle:vertical:hover {{
-                    background: rgba(70, 220, 255, 0.2);
-                }}
-            """)
+                self.splitter.setSizes([int(width * 0.55), int(width * 0.45)])
 
     def _setup_ui(self):
         central = QWidget()
@@ -513,14 +614,16 @@ class JarvisWindow(QMainWindow):
             }
         """)
 
+        # Left: Holographic Core (55%)
         left_panel = self._create_holographic_panel()
         self.splitter.addWidget(left_panel)
 
+        # Right: Chat Panel (45%)
         right_panel = self._create_chat_panel()
         self.splitter.addWidget(right_panel)
 
         width = self.width()
-        self.splitter.setSizes([int(width * 0.6), int(width * 0.4)])
+        self.splitter.setSizes([int(width * 0.55), int(width * 0.45)])
 
         main_layout.addWidget(self.splitter)
 
@@ -541,8 +644,8 @@ class JarvisWindow(QMainWindow):
                 padding: 6px 16px;
             }
         """)
-        header.setMinimumHeight(56)
-        header.setMaximumHeight(72)
+        header.setMinimumHeight(60)
+        header.setMaximumHeight(76)
         
         layout = QHBoxLayout(header)
         layout.setContentsMargins(12, 4, 12, 4)
@@ -568,7 +671,7 @@ class JarvisWindow(QMainWindow):
         """)
         brand.addWidget(title)
         
-        subtitle = QLabel("Speaking AI")
+        subtitle = QLabel("AI Assistant")
         subtitle.setStyleSheet("""
             QLabel {
                 color: rgba(70, 220, 255, 0.3);
@@ -584,23 +687,90 @@ class JarvisWindow(QMainWindow):
         brand.addStretch()
         layout.addLayout(brand)
 
-        # Developer Credit
-        dev = QLabel("✦ Ashwik Bire ✦")
-        dev.setStyleSheet("""
-            QLabel {
-                color: rgba(70, 220, 255, 0.25);
-                font-size: 10px;
-                font-weight: 300;
-                letter-spacing: 1.5px;
-                font-family: 'Segoe UI', sans-serif;
-                padding: 2px 8px;
+        # ---- Developer Credit with Links ----
+        dev_frame = QFrame()
+        dev_frame.setStyleSheet("""
+            QFrame {
+                background: rgba(70, 220, 255, 0.03);
                 border: 1px solid rgba(70, 220, 255, 0.04);
-                border-radius: 12px;
+                border-radius: 10px;
+                padding: 2px 8px;
             }
         """)
-        layout.addWidget(dev)
+        dev_layout = QHBoxLayout(dev_frame)
+        dev_layout.setContentsMargins(8, 2, 8, 2)
+        dev_layout.setSpacing(6)
+        
+        dev_label = QLabel("✦ Developed By")
+        dev_label.setStyleSheet("color: rgba(140, 180, 220, 0.3); font-size: 9px;")
+        dev_layout.addWidget(dev_label)
+        
+        name_label = QLabel("Ashwik Bire")
+        name_label.setStyleSheet("color: rgba(70, 220, 255, 0.5); font-size: 10px; font-weight: 600;")
+        dev_layout.addWidget(name_label)
+        
+        # Separator
+        sep = QLabel("|")
+        sep.setStyleSheet("color: rgba(140, 180, 220, 0.1); font-size: 9px;")
+        dev_layout.addWidget(sep)
+        
+        # Portfolio Link
+        portfolio_btn = QPushButton("🌐")
+        portfolio_btn.setToolTip("Portfolio")
+        portfolio_btn.setStyleSheet("""
+            QPushButton {
+                background: transparent;
+                color: rgba(140, 180, 220, 0.2);
+                border: none;
+                font-size: 11px;
+                padding: 2px 4px;
+            }
+            QPushButton:hover {
+                color: rgba(70, 220, 255, 0.4);
+            }
+        """)
+        portfolio_btn.clicked.connect(lambda: QDesktopServices.openUrl(QUrl("https://ashwikbire.github.io/My-Portfolio/")))
+        dev_layout.addWidget(portfolio_btn)
+        
+        # LinkedIn Link
+        linkedin_btn = QPushButton("🔗")
+        linkedin_btn.setToolTip("LinkedIn")
+        linkedin_btn.setStyleSheet("""
+            QPushButton {
+                background: transparent;
+                color: rgba(140, 180, 220, 0.2);
+                border: none;
+                font-size: 11px;
+                padding: 2px 4px;
+            }
+            QPushButton:hover {
+                color: rgba(70, 220, 255, 0.4);
+            }
+        """)
+        linkedin_btn.clicked.connect(lambda: QDesktopServices.openUrl(QUrl("https://linkedin.com/in/ashwik-bire-b2a000186")))
+        dev_layout.addWidget(linkedin_btn)
+        
+        # GitHub Link
+        github_btn = QPushButton("🐙")
+        github_btn.setToolTip("GitHub")
+        github_btn.setStyleSheet("""
+            QPushButton {
+                background: transparent;
+                color: rgba(140, 180, 220, 0.2);
+                border: none;
+                font-size: 11px;
+                padding: 2px 4px;
+            }
+            QPushButton:hover {
+                color: rgba(70, 220, 255, 0.4);
+            }
+        """)
+        github_btn.clicked.connect(lambda: QDesktopServices.openUrl(QUrl("https://github.com/AshwikBire")))
+        dev_layout.addWidget(github_btn)
+        
+        layout.addWidget(dev_frame)
 
-        # Controls
+        # ---- Controls ----
         controls = QHBoxLayout()
         controls.setSpacing(6)
 
@@ -626,19 +796,44 @@ class JarvisWindow(QMainWindow):
             }
         """
 
-        # Voice toggle (speaking)
+        # AI Model Selector
+        self.ai_combo = QComboBox()
+        self.ai_combo.addItem("🧠 Local (Ollama)", "local")
+        self.ai_combo.addItem("☁️ Nemotron (Cloud)", "nemotron")
+        self.ai_combo.setStyleSheet("""
+            QComboBox {
+                background: rgba(70, 220, 255, 0.05);
+                color: rgba(140, 180, 220, 0.6);
+                border: 1px solid rgba(70, 220, 255, 0.06);
+                border-radius: 8px;
+                padding: 4px 10px;
+                font-size: 9px;
+                font-family: 'Segoe UI', sans-serif;
+                min-width: 120px;
+            }
+            QComboBox:hover {
+                background: rgba(70, 220, 255, 0.12);
+                border-color: rgba(70, 220, 255, 0.15);
+            }
+            QComboBox::drop-down {
+                border: none;
+            }
+            QComboBox QAbstractItemView {
+                background: #0a121f;
+                color: rgba(160, 200, 240, 0.8);
+                border: 1px solid rgba(70, 220, 255, 0.06);
+                selection-background-color: rgba(70, 220, 255, 0.1);
+            }
+        """)
+        self.ai_combo.currentIndexChanged.connect(self._on_ai_changed)
+        controls.addWidget(self.ai_combo)
+
+        # Voice toggle
         self.voice_btn = QPushButton("🔊 ON")
         self.voice_btn.setStyleSheet(btn_style)
         self.voice_btn.setFixedHeight(28)
         self.voice_btn.clicked.connect(self._toggle_voice)
         controls.addWidget(self.voice_btn)
-
-        # Brain toggle
-        self.brain_btn = QPushButton("🧠 LOCAL")
-        self.brain_btn.setStyleSheet(btn_style)
-        self.brain_btn.setFixedHeight(28)
-        self.brain_btn.clicked.connect(self._toggle_brain)
-        controls.addWidget(self.brain_btn)
 
         # Upload button
         upload_btn = QPushButton("📎 Upload")
@@ -677,6 +872,52 @@ class JarvisWindow(QMainWindow):
         stop_btn.setFixedHeight(28)
         stop_btn.clicked.connect(self._stop_speaking)
         controls.addWidget(stop_btn)
+
+        # API Key button
+        self.api_btn = QPushButton("🔑 API Key")
+        self.api_btn.setStyleSheet("""
+            QPushButton {
+                background: rgba(255, 200, 80, 0.05);
+                color: rgba(255, 200, 80, 0.5);
+                border: 1px solid rgba(255, 200, 80, 0.06);
+                border-radius: 8px;
+                padding: 4px 10px;
+                font-size: 9px;
+                font-weight: 400;
+                font-family: 'Segoe UI', sans-serif;
+                letter-spacing: 0.3px;
+            }
+            QPushButton:hover {
+                background: rgba(255, 200, 80, 0.12);
+                border-color: rgba(255, 200, 80, 0.12);
+                color: rgba(255, 200, 80, 0.7);
+            }
+        """)
+        self.api_btn.setFixedHeight(28)
+        self.api_btn.clicked.connect(self._show_api_key_dialog)
+        
+        # Show key status
+        if self.nemotron_api_key:
+            self.api_btn.setText("🔑 Key Set ✅")
+            self.api_btn.setStyleSheet("""
+                QPushButton {
+                    background: rgba(90, 255, 170, 0.05);
+                    color: rgba(90, 255, 170, 0.6);
+                    border: 1px solid rgba(90, 255, 170, 0.06);
+                    border-radius: 8px;
+                    padding: 4px 10px;
+                    font-size: 9px;
+                    font-weight: 400;
+                    font-family: 'Segoe UI', sans-serif;
+                    letter-spacing: 0.3px;
+                }
+                QPushButton:hover {
+                    background: rgba(90, 255, 170, 0.12);
+                    border-color: rgba(90, 255, 170, 0.12);
+                    color: rgba(90, 255, 170, 0.8);
+                }
+            """)
+        controls.addWidget(self.api_btn)
 
         layout.addLayout(controls)
 
@@ -735,7 +976,7 @@ class JarvisWindow(QMainWindow):
 
         # Chat header
         chat_header = QHBoxLayout()
-        chat_title = QLabel("💬 CONSOLE")
+        chat_title = QLabel("💬 CHAT")
         chat_title.setStyleSheet("""
             QLabel {
                 color: rgba(70, 220, 255, 0.18);
@@ -774,7 +1015,7 @@ class JarvisWindow(QMainWindow):
         
         layout.addLayout(chat_header)
 
-        # ---- CHAT DISPLAY ----
+        # ---- CHAT DISPLAY (Visible) ----
         self.chat_display = QTextEdit()
         self.chat_display.setReadOnly(True)
         self.chat_display.setStyleSheet("""
@@ -784,8 +1025,8 @@ class JarvisWindow(QMainWindow):
                 border-radius: 10px;
                 color: rgba(180, 210, 240, 0.85);
                 font-family: 'Consolas', 'Segoe UI', monospace;
-                font-size: 11px;
-                padding: 10px 12px;
+                font-size: 12px;
+                padding: 12px 14px;
                 selection-background-color: rgba(70, 220, 255, 0.1);
             }
             QTextEdit:focus {
@@ -793,11 +1034,11 @@ class JarvisWindow(QMainWindow):
             }
             QScrollBar:vertical {
                 background: rgba(6, 10, 20, 0.5);
-                width: 5px;
+                width: 6px;
                 border-radius: 3px;
             }
             QScrollBar::handle:vertical {
-                background: rgba(70, 220, 255, 0.1);
+                background: rgba(70, 220, 255, 0.12);
                 border-radius: 3px;
                 min-height: 20px;
             }
@@ -805,10 +1046,10 @@ class JarvisWindow(QMainWindow):
                 background: rgba(70, 220, 255, 0.2);
             }
         """)
-        self.chat_display.setMinimumHeight(150)
+        self.chat_display.setMinimumHeight(200)
         layout.addWidget(self.chat_display, stretch=2)
 
-        # ---- PROGRESS BAR (Speaking progress) ----
+        # ---- PROGRESS BAR ----
         self.progress_bar = QProgressBar()
         self.progress_bar.setStyleSheet("""
             QProgressBar {
@@ -820,7 +1061,7 @@ class JarvisWindow(QMainWindow):
             }
             QProgressBar::chunk {
                 background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
-                    stop:0 #46dcff, stop:1 #be78ff);
+                    stop:0 #46dcff, stop:0.33 #ff6b6b, stop:0.66 #ffc850, stop:1 #be78ff);
                 border-radius: 4px;
             }
         """)
@@ -902,7 +1143,7 @@ class JarvisWindow(QMainWindow):
                 border-color: rgba(70, 220, 255, 0.15);
             }
         """)
-        input_frame.setFixedHeight(40)
+        input_frame.setFixedHeight(44)
         input_layout = QHBoxLayout(input_frame)
         input_layout.setContentsMargins(8, 2, 4, 2)
         input_layout.setSpacing(4)
@@ -914,9 +1155,9 @@ class JarvisWindow(QMainWindow):
                 background: transparent;
                 border: none;
                 color: rgba(200, 220, 240, 0.85);
-                font-size: 11px;
+                font-size: 12px;
                 font-family: 'Segoe UI', sans-serif;
-                padding: 4px 4px;
+                padding: 6px 4px;
             }
             QLineEdit::placeholder {
                 color: rgba(140, 180, 220, 0.2);
@@ -927,7 +1168,7 @@ class JarvisWindow(QMainWindow):
         input_layout.addWidget(self.input_field)
 
         self.send_btn = QPushButton("➤")
-        self.send_btn.setFixedSize(28, 28)
+        self.send_btn.setFixedSize(32, 32)
         self.send_btn.setStyleSheet("""
             QPushButton {
                 background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
@@ -935,8 +1176,8 @@ class JarvisWindow(QMainWindow):
                     stop:1 rgba(70, 220, 255, 0.05));
                 color: rgba(160, 200, 240, 0.7);
                 border: 1px solid rgba(70, 220, 255, 0.1);
-                border-radius: 7px;
-                font-size: 14px;
+                border-radius: 8px;
+                font-size: 16px;
                 font-weight: 300;
             }
             QPushButton:hover {
@@ -1022,9 +1263,6 @@ class JarvisWindow(QMainWindow):
         self.voice_shortcut = QShortcut(QKeySequence("Ctrl+Shift+V"), self)
         self.voice_shortcut.activated.connect(self._toggle_voice)
         
-        self.brain_shortcut = QShortcut(QKeySequence("Ctrl+Shift+B"), self)
-        self.brain_shortcut.activated.connect(self._toggle_brain)
-        
         self.upload_shortcut = QShortcut(QKeySequence("Ctrl+U"), self)
         self.upload_shortcut.activated.connect(self._upload_document)
         
@@ -1034,26 +1272,27 @@ class JarvisWindow(QMainWindow):
         self.escape_shortcut = QShortcut(QKeySequence("Esc"), self)
         self.escape_shortcut.activated.connect(self._clear_input)
         
-        # Stop speaking shortcut
         self.stop_shortcut = QShortcut(QKeySequence("Ctrl+Shift+S"), self)
         self.stop_shortcut.activated.connect(self._stop_speaking)
 
     def _init_status(self):
-        self._update_status("SYSTEM READY", "#46dcff")
-        self._add_message("🤖", "Jarvis initialized. I can speak my responses!", "assistant")
-        self._add_message("🗣️", "Ask me anything and I'll read the answer aloud.", "system")
+        self._add_message("🤖", "Jarvis initialized. How can I help you?", "assistant")
+        self._add_message("🗣️", "I can read responses aloud automatically!", "system")
         self._add_message("📄", "Upload documents to ask questions about them.", "system")
-        self._add_message("⌨️", "Press Ctrl+H for shortcuts, Ctrl+Shift+S to stop speaking.", "info")
+        self._add_message("🧠", "Select AI: Local (Ollama) or Nemotron (Cloud)", "system")
+        
+        if self.nemotron_api_key:
+            self._add_message("✅", "Nemotron API key is set! You can use cloud AI.", "system")
+        else:
+            self._add_message("💡", "Click 'API Key' to set Nemotron key for cloud AI.", "system")
         
         if HAS_OLLAMA and self.ollama_client and self.ollama_client.is_available:
-            self._add_message("✅", f"Ollama connected: qwen2.5:3b", "system")
+            self._add_message("✅", "Ollama connected: qwen2.5:3b (Local AI)", "system")
         else:
             self._add_message("⚠️", "Ollama not connected. Please ensure Ollama is running.", "system")
         
         if HAS_EDGE_TTS and HAS_PYGAME:
             self._add_message("🔊", "Natural voice TTS ready (Jenny Neural)", "system")
-        else:
-            self._add_message("⚠️", "TTS not available. Install edge-tts and pygame", "system")
 
     def _show_help(self):
         help_text = """
@@ -1063,14 +1302,121 @@ class JarvisWindow(QMainWindow):
         <tr><td><b>Ctrl+Shift+I</b></td><td>Focus input</td></tr>
         <tr><td><b>Ctrl+Shift+C</b></td><td>Clear chat</td></tr>
         <tr><td><b>Ctrl+Shift+V</b></td><td>Toggle voice</td></tr>
-        <tr><td><b>Ctrl+Shift+B</b></td><td>Toggle brain</td></tr>
         <tr><td><b>Ctrl+Shift+S</b></td><td>Stop speaking</td></tr>
         <tr><td><b>Ctrl+U</b></td><td>Upload document</td></tr>
         <tr><td><b>Ctrl+H</b></td><td>Show help</td></tr>
         <tr><td><b>Esc</b></td><td>Clear input</td></tr>
         </table>
+        <br>
+        <h3 style='color: #46dcff;'>🤖 AI Models</h3>
+        <table style='color: rgba(160, 200, 240, 0.8); font-size: 12px;'>
+        <tr><td><b>Local (Ollama)</b></td><td>qwen2.5:3b - Free, offline</td></tr>
+        <tr><td><b>Nemotron</b></td><td>NVIDIA Cloud AI - Faster, needs API key</td></tr>
+        </table>
         """
-        QMessageBox.information(self, "Keyboard Shortcuts", help_text)
+        QMessageBox.information(self, "Help & Shortcuts", help_text)
+
+    def _on_ai_changed(self, index):
+        """Handle AI model change"""
+        self.ai_model = self.ai_combo.currentData()
+        
+        if self.ai_model == "nemotron" and not self.nemotron_api_key:
+            self._show_api_key_dialog()
+            if not self.nemotron_api_key:
+                # Revert to local
+                self.ai_combo.setCurrentIndex(0)
+                self.ai_model = "local"
+                return
+        
+        model_name = "Nemotron (Cloud)" if self.ai_model == "nemotron" else "Local (Ollama)"
+        self._add_message(f"🧠 Switched to {model_name}", "system")
+        
+        if self.ai_model == "nemotron":
+            self.ai_combo.setStyleSheet("""
+                QComboBox {
+                    background: rgba(255, 200, 80, 0.05);
+                    color: rgba(255, 200, 80, 0.6);
+                    border: 1px solid rgba(255, 200, 80, 0.06);
+                    border-radius: 8px;
+                    padding: 4px 10px;
+                    font-size: 9px;
+                    font-family: 'Segoe UI', sans-serif;
+                    min-width: 120px;
+                }
+                QComboBox:hover {
+                    background: rgba(255, 200, 80, 0.12);
+                    border-color: rgba(255, 200, 80, 0.12);
+                }
+                QComboBox::drop-down {
+                    border: none;
+                }
+                QComboBox QAbstractItemView {
+                    background: #0a121f;
+                    color: rgba(160, 200, 240, 0.8);
+                    border: 1px solid rgba(70, 220, 255, 0.06);
+                    selection-background-color: rgba(70, 220, 255, 0.1);
+                }
+            """)
+        else:
+            self.ai_combo.setStyleSheet("""
+                QComboBox {
+                    background: rgba(90, 255, 170, 0.05);
+                    color: rgba(90, 255, 170, 0.6);
+                    border: 1px solid rgba(90, 255, 170, 0.06);
+                    border-radius: 8px;
+                    padding: 4px 10px;
+                    font-size: 9px;
+                    font-family: 'Segoe UI', sans-serif;
+                    min-width: 120px;
+                }
+                QComboBox:hover {
+                    background: rgba(90, 255, 170, 0.12);
+                    border-color: rgba(90, 255, 170, 0.12);
+                }
+                QComboBox::drop-down {
+                    border: none;
+                }
+                QComboBox QAbstractItemView {
+                    background: #0a121f;
+                    color: rgba(160, 200, 240, 0.8);
+                    border: 1px solid rgba(70, 220, 255, 0.06);
+                    selection-background-color: rgba(70, 220, 255, 0.1);
+                }
+            """)
+
+    def _show_api_key_dialog(self):
+        """Show API key dialog"""
+        dialog = APIKeyDialog(self)
+        if dialog.exec() == QDialog.DialogCode.Accepted:
+            key = dialog.get_api_key()
+            if key:
+                self.nemotron_api_key = key
+                self.api_btn.setText("🔑 Key Set ✅")
+                self.api_btn.setStyleSheet("""
+                    QPushButton {
+                        background: rgba(90, 255, 170, 0.05);
+                        color: rgba(90, 255, 170, 0.6);
+                        border: 1px solid rgba(90, 255, 170, 0.06);
+                        border-radius: 8px;
+                        padding: 4px 10px;
+                        font-size: 9px;
+                        font-weight: 400;
+                        font-family: 'Segoe UI', sans-serif;
+                        letter-spacing: 0.3px;
+                    }
+                    QPushButton:hover {
+                        background: rgba(90, 255, 170, 0.12);
+                        border-color: rgba(90, 255, 170, 0.12);
+                        color: rgba(90, 255, 170, 0.8);
+                    }
+                """)
+                self._add_message("🔑", "Nemotron API key saved successfully!", "system")
+                
+                # Auto-switch to Nemotron if currently selected
+                if self.ai_model == "nemotron":
+                    self._add_message("🧠", "Nemotron is ready to use!", "system")
+            else:
+                self._add_message("⚠️", "No API key provided.", "warning")
 
     def _clear_input(self):
         self.input_field.clear()
@@ -1089,41 +1435,12 @@ class JarvisWindow(QMainWindow):
     def _toggle_voice(self):
         self.voice_enabled = self.tts_engine.toggle()
         self.voice_btn.setText(f"🔊 {'ON' if self.voice_enabled else 'OFF'}")
-        self.voice_btn.setStyleSheet(f"""
-            QPushButton {{
-                background: rgba(70, 220, 255, {'0.05' if self.voice_enabled else '0.02'});
-                color: rgba(140, 180, 220, {'0.6' if self.voice_enabled else '0.3'});
-                border: 1px solid rgba(70, 220, 255, {'0.06' if self.voice_enabled else '0.03'});
-                border-radius: 8px;
-                padding: 4px 10px;
-                font-size: 9px;
-                font-weight: 400;
-                font-family: 'Segoe UI', sans-serif;
-                letter-spacing: 0.3px;
-            }}
-            QPushButton:hover {{
-                background: rgba(70, 220, 255, 0.12);
-                border-color: rgba(70, 220, 255, 0.15);
-                color: rgba(180, 210, 240, 0.8);
-            }}
-        """)
         self._add_message(f"🔊 Voice {'ON' if self.voice_enabled else 'OFF'}", "system")
 
     def _stop_speaking(self):
-        """Stop the current speech"""
         self.tts_engine.stop()
         self.speaking_indicator.setText("⏹️")
-        self.speaking_indicator.setStyleSheet("color: rgba(255, 100, 100, 0.4); font-size: 12px;")
         QTimer.singleShot(1000, lambda: self.speaking_indicator.setText("🔇"))
-        self._add_message("⏹️", "Speech stopped.", "system")
-
-    def _toggle_brain(self):
-        if not HAS_DOTENV:
-            QMessageBox.warning(self, "Nemotron Not Available", "Install: pip install python-dotenv")
-            return
-        self.use_nemotron = not self.use_nemotron
-        self.brain_btn.setText(f"🧠 {'NEMOTRON' if self.use_nemotron else 'LOCAL'}")
-        self._add_message(f"🧠 Switched to {'Nemotron' if self.use_nemotron else 'Local AI'}", "system")
 
     def _upload_document(self):
         file_paths, _ = QFileDialog.getOpenFileNames(
@@ -1211,8 +1528,6 @@ class JarvisWindow(QMainWindow):
         self.message_count += 1
         self._update_activity_info()
         
-        self.holographic_core.set_state("thinking")
-        self._update_status("🤔 THINKING...", "#be78ff")
         self.progress_bar.setVisible(True)
         self.progress_bar.setValue(0)
         
@@ -1227,7 +1542,8 @@ class JarvisWindow(QMainWindow):
             self.doc_processor, 
             self.tts_engine,
             self.voice_enabled, 
-            self.use_nemotron
+            self.ai_model,
+            self.nemotron_api_key
         )
         self.worker.response_ready.connect(self._on_response_ready)
         self.worker.status_update.connect(self._on_worker_status)
@@ -1244,25 +1560,16 @@ class JarvisWindow(QMainWindow):
         self.input_field.setFocus()
 
     def _on_worker_status(self, status, color_hex):
-        if status == "thinking":
-            self.holographic_core.set_state("thinking")
-            self._update_status("🤔 THINKING...", color_hex)
-        elif status == "speaking":
+        if status == "speaking":
             self.holographic_core.set_state("speaking")
-            self._update_status("🗣️ SPEAKING...", color_hex)
-        else:
-            self.holographic_core.set_state("idle")
-            self._update_status("SYSTEM READY", color_hex)
 
     def _on_speaking_started(self):
         self.holographic_core.set_state("speaking")
-        self._update_status("🗣️ SPEAKING...", "#ffc850")
         self.speaking_indicator.setText("🔊")
         self.speaking_indicator.setStyleSheet("color: #46dcff; font-size: 12px;")
 
     def _on_speaking_finished(self):
         self.holographic_core.set_state("idle")
-        self._update_status("SYSTEM READY", "#46dcff")
         self.speaking_indicator.setText("🔇")
         self.speaking_indicator.setStyleSheet("color: rgba(140, 180, 220, 0.15); font-size: 12px;")
         self.progress_bar.setVisible(False)
@@ -1290,19 +1597,6 @@ class JarvisWindow(QMainWindow):
         self.chat_display.verticalScrollBar().setValue(
             self.chat_display.verticalScrollBar().maximum()
         )
-
-    def _update_status(self, text, color_hex="#46dcff"):
-        self.status_label.setText(f"● {text}")
-        self.status_label.setStyleSheet(f"""
-            QLabel {{
-                color: {color_hex};
-                font-size: 8px;
-                font-weight: 300;
-                letter-spacing: 2px;
-                font-family: 'Segoe UI', sans-serif;
-                opacity: 0.7;
-            }}
-        """)
 
     def _update_activity_info(self):
         elapsed = datetime.now() - self.start_time
@@ -1356,15 +1650,6 @@ class JarvisWindow(QMainWindow):
             self.chat_display.verticalScrollBar().setValue(
                 self.chat_display.verticalScrollBar().maximum()
             )
-            msg_lower = message.lower()
-            if "listening" in msg_lower:
-                self.holographic_core.set_state("listening")
-            elif "thinking" in msg_lower:
-                self.holographic_core.set_state("thinking")
-            elif "speaking" in msg_lower:
-                self.holographic_core.set_state("speaking")
-            elif "idle" in msg_lower:
-                self.holographic_core.set_state("idle")
         finally:
             self._processing_core_message = False
 
@@ -1373,10 +1658,15 @@ class JarvisWindow(QMainWindow):
         event.accept()
 
 
+# ============================================================
+# MAIN ENTRY POINT
+# ============================================================
+
 def main():
     app = QApplication(sys.argv)
     app.setStyle("Fusion")
     
+    # Dark theme palette
     palette = QPalette()
     palette.setColor(QPalette.ColorRole.Window, QColor(6, 10, 20))
     palette.setColor(QPalette.ColorRole.WindowText, QColor(160, 200, 240))
@@ -1388,7 +1678,13 @@ def main():
     palette.setColor(QPalette.ColorRole.BrightText, QColor(70, 220, 255))
     app.setPalette(palette)
     
-    window = JarvisWindow()
+    # Show API key dialog on startup
+    api_key = ""
+    dialog = APIKeyDialog()
+    if dialog.exec() == QDialog.DialogCode.Accepted:
+        api_key = dialog.get_api_key()
+    
+    window = JarvisWindow(api_key)
     window.show()
     sys.exit(app.exec())
 
